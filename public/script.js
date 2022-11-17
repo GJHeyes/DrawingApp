@@ -48,11 +48,8 @@ socket.on("pendrawing", function (userInfo){
 
 function otherUserDrawing(userInfo){
   const {x, y , userId, penDown, otherWidth, otherHeight,pageX,pageY} = userInfo
-  var width = window.innerWidth/otherWidth;
-  var height = window.innerHeight/otherHeight; 
-  console.log(pageX)
-
-  
+  var width = ((window.innerWidth-1400)/2) - ((otherWidth-1400)/2);
+  var height = ((window.innerHeight-800)/2) - ((otherHeight-800)/2); 
 
   if(userId !== localStorage.getItem("user") && penDown){
    
@@ -60,7 +57,7 @@ function otherUserDrawing(userInfo){
     ctxOtherUser.lineTo(x,y)
     ctxOtherUser.stroke()
   }else if(userId !== localStorage.getItem("user") && !penDown){
-    otherCursor.setAttribute("style", `top: ${pageY+height}px; left: ${pageX-width}px`)
+    otherCursor.setAttribute("style", `top: ${pageY+height}px; left: ${pageX+width}px`)
 
     ctxOtherUser.moveTo(x, y)
   }
