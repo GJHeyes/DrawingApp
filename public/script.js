@@ -13,6 +13,7 @@ let userSet = false;
 
 ctx.styleStroke = '#4EABE5'
 
+
 function getCoords(event){
   const {pageX,pageY} = event
   const {offsetLeft,offsetTop} = canvas 
@@ -23,18 +24,18 @@ document.addEventListener('mousemove', event=>{
   const {pageX,pageY} = event
   const {x, y} = getCoords(event)
   if(penDown){
-    ctx.lineTo(x,y)
+    ctx.lineTo(pageX,pageY)
     ctx.stroke()
   }
   socket.emit("pendrawing", {x: x, y: y, userId: localStorage.getItem("user"), penDown: penDown, otherWidth : window.innerWidth, otherHeight:window.innerHeight,
-
-pageX:pageX, pageY:pageY} )
+  pageX:pageX, pageY:pageY})
 }) 
 
 document.addEventListener('mousedown', event=>{
   const {x, y} = getCoords(event)
+  const {pageX,pageY} = event
   penDown = true
-  ctx.moveTo(x, y)
+  ctx.moveTo(pageX, pageY)
   ctx.beginPath()
 })
 
@@ -52,7 +53,8 @@ function otherUserDrawing(userInfo){
   var height = window.innerHeight/otherHeight; 
   console.log(pageX)
 
-  
+  ctx.canvas.height = window.innerHeight-100
+  ctx.canvas.width = window.innerWidth-100
 
   if(userId !== localStorage.getItem("user") && penDown){
    
