@@ -3,7 +3,7 @@ const socket = io(),
   form = document.querySelector("#message-form"),
   input = document.querySelector("#chat"),
   //otherCursor = document.querySelector(".otherCursor"),
-  myCursor = document.querySelector(".myCursor"),
+  myCursor = document.querySelector("#myCursor"),
   canvas = document.getElementById('canvas'),
   //canvas2 = document.getElementById('canvas2'),
   penBox = document.getElementById('penBox')
@@ -14,10 +14,12 @@ let penDown = false
 let draw = false;
 let localUser = ""
 const colorArray = ["red","blue","yellow","green","pink","orange","purple"]
+
+const randomColour = colorArray[Math.floor(Math.random()*7)]
+myCursor.classList.add(randomColour)
 /*******************pendrawing***********************/
 
 ctx.strokeStyle = '#4EABE5'
-//ctxOtherUser.strokeStyle = '#FF0000'
 
 function getCoords(event){
   const {pageX,pageY} = event
@@ -32,7 +34,6 @@ document.addEventListener('mousemove', event=>{
   if(penDown){
     ctx.lineTo(x,y)
     ctx.stroke()
-    ctx.strokeStyle = '#FF0000'
     draw = true;
   }
   socket.emit("pendrawing", {x: x, y: y, userId: localUser, penDown: penDown, otherWidth : window.innerWidth, otherHeight:window.innerHeight,
@@ -44,7 +45,6 @@ document.addEventListener('mousedown', event=>{
   penDown = true
   ctx.moveTo(x, y)
   ctx.beginPath()
-  
 })
 
 document.addEventListener('mouseup', event=>{
@@ -118,14 +118,12 @@ function addUser(user){
   /*userCanvas.setAttribute('id',`userCanvas-${user}`)
   userCanvas.style.width = "1400px";
   userCanvas.style.height = "800px"*/
-  if(user !== localUser){
-
-  }
   userPointer.setAttribute('id',`userPen-${user}`)
   userPointer.classList.add('cursor')
   userPointer.classList.add(randomColour)
   //canvasHolder.appendChild(userCanvas)
   penBox.appendChild(userPointer)
+  penBox.childElementCount;
 }
 
 
