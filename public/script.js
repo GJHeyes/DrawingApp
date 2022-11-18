@@ -80,14 +80,14 @@ function otherUserDrawing(userInfo){
   }else if(userId !== localStorage.getItem("user") && !penDown){
     otherCursor.setAttribute("style", `top: ${pageY+height}px; left: ${pageX+width}px`)
     ctxOtherUser.moveTo(x, y)
+  }else if(userId === localStorage.getItem("user") && penDown){
+    myCursor.setAttribute("style", `top: ${pageY+height}px; left: ${pageX+width}px`)
+    ctx.strokeStyle = '#FF0000'
+    ctx.lineTo(x,y)
+    ctx.stroke()
   }else if(userId === localStorage.getItem("user") && !penDown){
     myCursor.setAttribute("style", `top: ${pageY+height}px; left: ${pageX+width}px`)
-    ctxOtherUser.strokeStyle = '#A020F0'
-    ctxOtherUser.lineTo(x,y)
-    ctxOtherUser.stroke()
-  }else if(userId === localStorage.getItem("user") && !penDown){
-    myCursor.setAttribute("style", `top: ${pageY+height}px; left: ${pageX+width}px`)
-    ctxOtherUser.moveTo(x, y)
+    ctx.moveTo(x, y)
   }
 }
 
