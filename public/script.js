@@ -42,15 +42,16 @@ document.addEventListener('mousedown', event=>{
   const {x, y} = getCoords(event)
   penDown = true
   ctx.moveTo(x, y)
-    ctx.beginPath()
+  ctx.beginPath()
   
 })
 
 document.addEventListener('mouseup', event=>{
   const {x, y} = getCoords(event)
   penDown = false
-  ctx.strokeStyle = '#FFFFFF'
   if(draw = true){
+    ctx.strokeStyle = '#FFFFFF'
+    closePath()
     ctx.moveTo(x, y)
     ctx.beginPath()
     ctx.lineTo(x,y)
