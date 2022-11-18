@@ -3,6 +3,7 @@ const socket = io(),
   form = document.querySelector("#message-form"),
   input = document.querySelector("#chat"),
   otherCursor = document.querySelector(".otherCursor"),
+  myCursor = document.querySelector(".myCursor"),
   canvas = document.getElementById('canvas'),
   ctx = canvas.getContext('2d'),
   ctxOtherUser = canvas.getContext('2d');
@@ -16,12 +17,14 @@ ctx.styleStroke = '#4EABE5'
 function getCoords(event){
   const {pageX,pageY} = event
   const {offsetLeft,offsetTop} = canvas 
+  console.log(offsetLeft,offsetTop)
   return {x: pageX - offsetLeft, y: pageY-offsetTop}
 }
 
 document.addEventListener('mousemove', event=>{
   const {pageX,pageY} = event
   const {x, y} = getCoords(event)
+  myCursor.setAttribute("style", `top: ${pageY}px; left: ${pageX}px`)
   if(penDown){
     ctx.lineTo(x,y)
     ctx.stroke()
@@ -47,9 +50,13 @@ socket.on("pendrawing", function (userInfo){
 })
 
 function otherUserDrawing(userInfo){
+  
   const {x, y , userId, penDown, otherWidth, otherHeight,pageX,pageY} = userInfo
-  var width = ((window.innerWidth-1400)/2) - ((otherWidth-1400)/2);
-  var height = ((window.innerHeight-800)/2) - ((otherHeight-800)/2); 
+  //const {offsetLeft,offsetTop} = canvas 
+  //const theirX = pageX - offsetLeft
+  //const thierY = pageY- offsetTop
+  const width = ((window.innerWidth-1400)/2) - ((otherWidth-1400)/2);
+  const height = ((window.innerHeight-800)/2) - ((otherHeight-800)/2); 
 
   if(userId !== localStorage.getItem("user") && penDown){
    
