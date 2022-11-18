@@ -4,19 +4,23 @@ const express = require("express"), // Importing express to create our manipulat
   app = express(), // Creating our express web server for adding endpoints
   server = http.createServer(app), // Creating our Node server for use with socket.io
   io = new Server(server); // Creating our web socket server with our node web server
-let user = 0
 // Adding our public folder to our express server
 app.use("/", express.static("public"));
 
 // Using the "on event" method to run our controller function on connection
 io.on("connection", (socket) => {
-  user++
-  io.emit("user",user)
-  
+  console.log(socket.id)
+  io.emit("user",socket.id)
   socket.on("pendrawing", (userInfo)=>{
     io.emit("pendrawing", userInfo)
   })
+  socket.on("disconnect", () => {
+    io.emit("disconnected", socket.id)
+    console.log(socket.id); // undefined
+  });
 });
+
+
 
 // Listening on port 5001
 server.listen(5001);

@@ -11,21 +11,24 @@ body{
     justify-content: center;
     cursor: none;
     overflow:hidden;
-    
-
 }
 canvas{
     position: absolute;
     background-color: rgba(255, 255, 255, 0);
-    box-shadow: 2px 2px 2px 2px black;
+    /*box-shadow: 2px 2px 2px 2px black;*/
+}
+
+#canvasHolder{
+    display: flex;
+    width: 1400px;
+    height: 800px;
+
 }
 
 #background{
     width: 1400px;
     height: 800px;
-    position: absolute;
-    background-color: rgba(255, 255, 255);
-    z-index: -1;
+    background-color: white;
 }
 
 .cursor{
@@ -36,14 +39,8 @@ canvas{
     height: 100px;
 }
 
-.otherCursor{
-    filter: invert(15%) sepia(65%) saturate(6493%) hue-rotate(276deg) brightness(103%) contrast(94%);
-}
-
-.myCursor{
-    
-    filter: invert(33%) sepia(97%) saturate(7430%) hue-rotate(356deg) brightness(101%) contrast(123%);
-    
+.hidden{
+    display: none;
 }
 
 .red{
