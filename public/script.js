@@ -50,13 +50,12 @@ document.addEventListener('mouseup', event=>{
   const {x, y} = getCoords(event)
   penDown = false
   if(draw = true){
-    ctx.strokeStyle = '#FFFFFF'
-    closePath()
     ctx.moveTo(x, y)
     ctx.beginPath()
     ctx.lineTo(x,y)
     ctx.stroke()
     draw=false
+    closePath()
   }
 })
 
