@@ -5,11 +5,11 @@ const socket = io(),
   otherCursor = document.querySelector(".otherCursor"),
   myCursor = document.querySelector(".myCursor"),
   canvas = document.getElementById('canvas'),
+  canvas2 = document.getElementById('canvas2'),
   ctx = canvas.getContext('2d'),
-  ctxOtherUser = canvas.getContext('2d');
+  ctxOtherUser = canvas2.getContext('2d');
 let penDown = false
 let userSet = false;
-let draw = false;
 
 /*******************pendrawing***********************/
 
@@ -39,24 +39,24 @@ pageX:pageX, pageY:pageY} )
 }) 
 
 document.addEventListener('mousedown', event=>{
-  const {x, y} = getCoords(event)
+  // const {x, y} = getCoords(event)
   penDown = true
-  ctx.moveTo(x, y)
-  ctx.beginPath()
+  // ctx.moveTo(x, y)
+  // ctx.beginPath()
   
 })
 
 document.addEventListener('mouseup', event=>{
-  const {x, y} = getCoords(event)
+  // const {x, y} = getCoords(event)
   penDown = false
-  if(draw = true){
-    ctx.moveTo(x, y)
-    ctx.beginPath()
-    ctx.lineTo(x,y)
-    ctx.stroke()
-    draw=false
-    closePath()
-  }
+  // if(draw = true){
+  //   ctx.moveTo(x, y)
+  //   ctx.beginPath()
+  //   ctx.lineTo(x,y)
+  //   ctx.stroke()
+  //   draw=false
+  //   closePath()
+  // }
 })
 
 socket.on("pendrawing", function (userInfo){
