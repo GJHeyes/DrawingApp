@@ -27,12 +27,12 @@ document.addEventListener('mousemove', event=>{
   const {pageX,pageY} = event
   const {x, y} = getCoords(event)
   myCursor.setAttribute("style", `top: ${pageY}px; left: ${pageX}px`)
-  if(penDown){
-    ctx.lineTo(x,y)
-    ctx.stroke()
-    ctx.strokeStyle = '#FF0000'
-    draw = true;
-  }
+  // if(penDown){
+  //   ctx.lineTo(x,y)
+  //   ctx.stroke()
+  //   ctx.strokeStyle = '#FF0000'
+  //   draw = true;
+  // }
   socket.emit("pendrawing", {x: x, y: y, userId: localStorage.getItem("user"), penDown: penDown, otherWidth : window.innerWidth, otherHeight:window.innerHeight,
 
 pageX:pageX, pageY:pageY} )
@@ -79,6 +79,14 @@ function otherUserDrawing(userInfo){
     ctxOtherUser.stroke()
   }else if(userId !== localStorage.getItem("user") && !penDown){
     otherCursor.setAttribute("style", `top: ${pageY+height}px; left: ${pageX+width}px`)
+    ctxOtherUser.moveTo(x, y)
+  }else if(userId === localStorage.getItem("user") && !penDown){
+    myCursor.setAttribute("style", `top: ${pageY+height}px; left: ${pageX+width}px`)
+    ctxOtherUser.strokeStyle = '#A020F0'
+    ctxOtherUser.lineTo(x,y)
+    ctxOtherUser.stroke()
+  }else if(userId === localStorage.getItem("user") && !penDown){
+    myCursor.setAttribute("style", `top: ${pageY+height}px; left: ${pageX+width}px`)
     ctxOtherUser.moveTo(x, y)
   }
 }
