@@ -6,12 +6,14 @@ const socket = io(),
   myCursor = document.querySelector(".myCursor"),
   canvas = document.getElementById('canvas'),
   canvas2 = document.getElementById('canvas2'),
+  penBox = document.getElementById('penBox')
+  canvasHolder = document.getElementById("canvasHolder"),
   ctx = canvas.getContext('2d'),
   ctxOtherUser = canvas2.getContext('2d');
 let penDown = false
-let userSet = false;
 let draw = false;
-
+let localUser = ""
+const colorArray = ["red","blue","yellow","green","pink","orange","purple"]
 /*******************pendrawing***********************/
 
 ctx.strokeStyle = '#4EABE5'
@@ -20,7 +22,6 @@ ctxOtherUser.strokeStyle = '#FF0000'
 function getCoords(event){
   const {pageX,pageY} = event
   const {offsetLeft,offsetTop} = canvas 
-  console.log(offsetLeft,offsetTop)
   return {x: pageX - offsetLeft, y: pageY-offsetTop}
 }
 
@@ -34,9 +35,8 @@ document.addEventListener('mousemove', event=>{
     ctx.strokeStyle = '#FF0000'
     draw = true;
   }
-  socket.emit("pendrawing", {x: x, y: y, userId: localStorage.getItem("user"), penDown: penDown, otherWidth : window.innerWidth, otherHeight:window.innerHeight,
-
-pageX:pageX, pageY:pageY} )
+  socket.emit("pendrawing", {x: x, y: y, userId: localUser, penDown: penDown, otherWidth : window.innerWidth, otherHeight:window.innerHeight,
+  pageX:pageX, pageY:pageY} )
 }) 
 
 document.addEventListener('mousedown', event=>{
@@ -48,23 +48,26 @@ document.addEventListener('mousedown', event=>{
 })
 
 document.addEventListener('mouseup', event=>{
-  const {x, y} = getCoords(event)
+  //const {x, y} = getCoords(event)
   penDown = false
-  if(draw = true){
+  /*if(draw = true){
     ctx.moveTo(x, y)
     ctx.beginPath()
     ctx.lineTo(x,y)
     ctx.stroke()
     draw=false
-    closePath()
-  }
+  }*/
 })
 
 socket.on("pendrawing", function (userInfo){
+  if(!document.getElementById(`userCanvas-${userInfo.userId}`)){
+    addUser(userInfo.userId)
+  }
   otherUserDrawing(userInfo)
 })
 
 function otherUserDrawing(userInfo){
+  
   
   const {x, y , userId, penDown, otherWidth, otherHeight,pageX,pageY} = userInfo
   //const {offsetLeft,offsetTop} = canvas 
@@ -73,24 +76,38 @@ function otherUserDrawing(userInfo){
   const width = ((window.innerWidth-1400)/2) - ((otherWidth-1400)/2);
   const height = ((window.innerHeight-800)/2) - ((otherHeight-800)/2); 
 
-  if(userId !== localStorage.getItem("user") && penDown){
+  if(userId !== localUser && penDown){
     otherCursor.setAttribute("style", `top: ${pageY+height}px; left: ${pageX+width}px`)
     ctxOtherUser.strokeStyle = '#A020F0'
     ctxOtherUser.lineTo(x,y)
     ctxOtherUser.stroke()
-  }else if(userId !== localStorage.getItem("user") && !penDown){
+  }else if(userId !== localUser && !penDown){
     otherCursor.setAttribute("style", `top: ${pageY+height}px; left: ${pageX+width}px`)
     ctxOtherUser.moveTo(x, y)
   }
 }
 
 socket.on("user", function (user){
-  if(!userSet){
-    localStorage.setItem("user", user)
-    userSet = true;
+  if(localUser === ""){
+    localUser = user
+    addUser(user)
   }
 })
 
+
+function addUser(user){
+  const userCanvas = document.createElement('canvas'),
+    userPointer = document.createElement('div'),
+    randomColour = colorArray[Math.floor(Math.random()*7)]
+  userCanvas.setAttribute('id',`userCanvas-${user}`)
+  userCanvas.style.width = "1400px";
+  userCanvas.style.height = "800px"
+  userPointer.setAttribute('id',`userPen-${user}`)
+  userPointer.classList.add('cursor')
+  userPointer.classList.add(randomColour)
+  canvasHolder.appendChild(userCanvas)
+  penBox.appendChild(userPointer)
+}
 
 
 /*******************pendrawing***********************/
