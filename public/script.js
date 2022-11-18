@@ -5,8 +5,9 @@ const socket = io(),
   otherCursor = document.querySelector(".otherCursor"),
   myCursor = document.querySelector(".myCursor"),
   canvas = document.getElementById('canvas'),
+  canvas2 = document.getElementById('canvas2'),
   ctx = canvas.getContext('2d'),
-  ctxOtherUser = canvas.getContext('2d');
+  ctxOtherUser = canvas2.getContext('2d');
 let penDown = false
 let userSet = false;
 let draw = false;
@@ -89,6 +90,7 @@ socket.on("user", function (user){
     userSet = true;
   }
 })
+
 
 
 /*******************pendrawing***********************/
