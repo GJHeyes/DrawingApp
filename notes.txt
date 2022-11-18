@@ -7,3 +7,4 @@ button to reset --- do you agree?
 zoom in and out button
 
 changes last line colour?
+--- when mouse down do a dot of white

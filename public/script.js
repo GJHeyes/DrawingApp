@@ -9,6 +9,7 @@ const socket = io(),
   ctxOtherUser = canvas.getContext('2d');
 let penDown = false
 let userSet = false;
+let draw = false;
 
 /*******************pendrawing***********************/
 
@@ -30,6 +31,7 @@ document.addEventListener('mousemove', event=>{
     ctx.lineTo(x,y)
     ctx.stroke()
     ctx.strokeStyle = '#FF0000'
+    draw = true;
   }
   socket.emit("pendrawing", {x: x, y: y, userId: localStorage.getItem("user"), penDown: penDown, otherWidth : window.innerWidth, otherHeight:window.innerHeight,
 
@@ -40,11 +42,21 @@ document.addEventListener('mousedown', event=>{
   const {x, y} = getCoords(event)
   penDown = true
   ctx.moveTo(x, y)
-  ctx.beginPath()
+    ctx.beginPath()
+  
 })
 
 document.addEventListener('mouseup', event=>{
+  const {x, y} = getCoords(event)
   penDown = false
+  ctx.strokeStyle = '#FFFFFF'
+  if(draw = true){
+    ctx.moveTo(x, y)
+    ctx.beginPath()
+    ctx.lineTo(x,y)
+    ctx.stroke()
+    draw=false
+  }
 })
 
 socket.on("pendrawing", function (userInfo){
