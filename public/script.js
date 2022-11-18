@@ -2,14 +2,14 @@
 const socket = io(),
   form = document.querySelector("#message-form"),
   input = document.querySelector("#chat"),
-  otherCursor = document.querySelector(".otherCursor"),
+  //otherCursor = document.querySelector(".otherCursor"),
   myCursor = document.querySelector(".myCursor"),
   canvas = document.getElementById('canvas'),
-  canvas2 = document.getElementById('canvas2'),
+  //canvas2 = document.getElementById('canvas2'),
   penBox = document.getElementById('penBox')
   canvasHolder = document.getElementById("canvasHolder"),
-  ctx = canvas.getContext('2d'),
-  ctxOtherUser = canvas2.getContext('2d');
+  ctx = canvas.getContext('2d');
+  //ctxOtherUser = canvas2.getContext('2d');
 let penDown = false
 let draw = false;
 let localUser = ""
@@ -17,7 +17,7 @@ const colorArray = ["red","blue","yellow","green","pink","orange","purple"]
 /*******************pendrawing***********************/
 
 ctx.strokeStyle = '#4EABE5'
-ctxOtherUser.strokeStyle = '#FF0000'
+//ctxOtherUser.strokeStyle = '#FF0000'
 
 function getCoords(event){
   const {pageX,pageY} = event
@@ -60,8 +60,11 @@ document.addEventListener('mouseup', event=>{
 })
 
 socket.on("pendrawing", function (userInfo){
-  if(!document.getElementById(`userCanvas-${userInfo.userId}`)){
+  if(!document.getElementById(`userPen-${userInfo.userId}`)){
     addUser(userInfo.userId)
+    const userPen = document.getElementById(`userPen-${localUser}`);
+    console.log(userPen)
+    userPen.classList.add('hidden')
   }
   otherUserDrawing(userInfo)
 })
@@ -70,28 +73,41 @@ function otherUserDrawing(userInfo){
   
   
   const {x, y , userId, penDown, otherWidth, otherHeight,pageX,pageY} = userInfo
+  if(userId !== localUser){
   //const {offsetLeft,offsetTop} = canvas 
   //const theirX = pageX - offsetLeft
   //const thierY = pageY- offsetTop
-  const width = ((window.innerWidth-1400)/2) - ((otherWidth-1400)/2);
-  const height = ((window.innerHeight-800)/2) - ((otherHeight-800)/2); 
+    const width = ((window.innerWidth-1400)/2) - ((otherWidth-1400)/2);
+    const height = ((window.innerHeight-800)/2) - ((otherHeight-800)/2); 
+    const userPen = document.getElementById(`userPen-${userId}`);
+    //const userCanvas = document.getElementById(`userCanvas-${userId}`);
+    const canvas2 = document.getElementById('canvas2')
+    const ctxOtherUser = canvas2.getContext('2d')
+    userPen.setAttribute("style", `top: ${pageY+height}px; left: ${pageX+width}px`)
 
-  if(userId !== localUser && penDown){
-    otherCursor.setAttribute("style", `top: ${pageY+height}px; left: ${pageX+width}px`)
-    ctxOtherUser.strokeStyle = '#A020F0'
-    ctxOtherUser.lineTo(x,y)
-    ctxOtherUser.stroke()
-  }else if(userId !== localUser && !penDown){
-    otherCursor.setAttribute("style", `top: ${pageY+height}px; left: ${pageX+width}px`)
-    ctxOtherUser.moveTo(x, y)
+    if(penDown){
+      //otherCursor.setAttribute("style", `top: ${pageY+height}px; left: ${pageX+width}px`)
+      //userPen.setAttribute("style", `top: ${pageY+height}px; left: ${pageX+width}px`)
+      ctxOtherUser.strokeStyle = '#A020F0'
+      ctxOtherUser.lineTo(x,y)
+      ctxOtherUser.stroke()
+    }else if(!penDown){
+      //otherCursor.setAttribute("style", `top: ${pageY+height}px; left: ${pageX+width}px`)
+      ctxOtherUser.moveTo(x, y)
+    }
   }
 }
 
 socket.on("user", function (user){
   if(localUser === ""){
     localUser = user
-    addUser(user)
+    //addUser(user)
   }
+})
+
+socket.on("disconnected", function(user){
+  const userPen = document.getElementById(`userPen-${user}`);
+  penBox.removeChild(userPen)
 })
 
 
@@ -99,13 +115,16 @@ function addUser(user){
   const userCanvas = document.createElement('canvas'),
     userPointer = document.createElement('div'),
     randomColour = colorArray[Math.floor(Math.random()*7)]
-  userCanvas.setAttribute('id',`userCanvas-${user}`)
+  /*userCanvas.setAttribute('id',`userCanvas-${user}`)
   userCanvas.style.width = "1400px";
-  userCanvas.style.height = "800px"
+  userCanvas.style.height = "800px"*/
+  if(user !== localUser){
+
+  }
   userPointer.setAttribute('id',`userPen-${user}`)
   userPointer.classList.add('cursor')
   userPointer.classList.add(randomColour)
-  canvasHolder.appendChild(userCanvas)
+  //canvasHolder.appendChild(userCanvas)
   penBox.appendChild(userPointer)
 }
 
