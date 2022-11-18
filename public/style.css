@@ -20,7 +20,7 @@ canvas{
 
 .cursor{
     position: absolute;
-    background-image: url("./pencil2.png");
+    background-image: url("./pencil.png");
     background-size: cover;
     width: 100px;
     height: 100px;
