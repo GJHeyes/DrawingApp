@@ -29,6 +29,7 @@ document.addEventListener('mousemove', event=>{
   if(penDown){
     ctx.lineTo(x,y)
     ctx.stroke()
+    ctx.strokeStyle = '#4EABE5'
   }
   socket.emit("pendrawing", {x: x, y: y, userId: localStorage.getItem("user"), penDown: penDown, otherWidth : window.innerWidth, otherHeight:window.innerHeight,
 
@@ -60,13 +61,12 @@ function otherUserDrawing(userInfo){
   const height = ((window.innerHeight-800)/2) - ((otherHeight-800)/2); 
 
   if(userId !== localStorage.getItem("user") && penDown){
-   
     otherCursor.setAttribute("style", `top: ${pageY+height}px; left: ${pageX+width}px`)
+    ctxOtherUser.strokeStyle = '#FF0000'
     ctxOtherUser.lineTo(x,y)
     ctxOtherUser.stroke()
   }else if(userId !== localStorage.getItem("user") && !penDown){
     otherCursor.setAttribute("style", `top: ${pageY+height}px; left: ${pageX+width}px`)
-
     ctxOtherUser.moveTo(x, y)
   }
 }

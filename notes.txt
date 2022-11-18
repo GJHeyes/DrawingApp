@@ -5,3 +5,5 @@ assign brush cursor though id = user id
 button to save
 button to reset --- do you agree?
 zoom in and out button
+
+changes last line colour?
