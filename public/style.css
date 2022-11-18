@@ -10,14 +10,18 @@ body{
     align-items: center;
     justify-content: center;
     cursor: none;
-    overflow:hidden;
-    
-
+    /*overflow:hidden;*/
 }
 canvas{
     position: absolute;
     background-color: rgba(255, 255, 255, 0);
-    box-shadow: 2px 2px 2px 2px black;
+    /*box-shadow: 2px 2px 2px 2px black;*/
+}
+
+#canvass{
+    display: flex;
+    width: 1400px;
+    height: 800px;;
 }
 
 #background{
@@ -63,7 +67,7 @@ canvas{
 }
 
 .pink{
-    filter: invert(87%) sepia(91%) saturate(1299%) hue-rotate(287deg) brightness(109%) contrast(102%);
+    filter: invert(45%) sepia(71%) saturate(6543%) hue-rotate(325deg) brightness(90%) contrast(92%);
 }
 
 .orange{

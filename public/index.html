@@ -7,16 +7,15 @@
     <link rel="stylesheet" href="style.css" />
     <title>Draw Together</title>
   </head>
-  <body>
-    <div class="cursor otherCursor"></div>
-    <div class="cursor myCursor"></div>
-    
-        <div id="background"></div>
-        <canvas id="canvas" width="1400" height="800"></canvas>
-        <canvas id="canvas2" width="1400" height="800"></canvas>
-   
-        
-        
+  <body>      
+    <div id="penbox">
+      <div class="cursor myCursor"></div>
+    </div>
+    <section id="canvass">
+      <div id="background"></div>
+      <canvas id="canvas" width="1400" height="800"></canvas>
+      <!--<canvas id="canvas2" width="1400" height="800"></canvas>-->
+    </section>  
     <!-- Importing the socket javascript files so our web sockets can work -->
     <script src="/socket.io/socket.io.js"></script>
     <script src="./script.js"></script>
