@@ -12,7 +12,8 @@ let userSet = false;
 
 /*******************pendrawing***********************/
 
-ctx.styleStroke = '#4EABE5'
+ctx.strokeStyle = '#4EABE5'
+ctxOtherUser.strokeStyle = '#FF0000'
 
 function getCoords(event){
   const {pageX,pageY} = event

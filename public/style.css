@@ -9,6 +9,7 @@ body{
     width: 100vw;
     align-items: center;
     justify-content: center;
+    cursor: none;
 
 }
 canvas{
@@ -19,11 +20,10 @@ canvas{
 
 .cursor{
     position: absolute;
-    background-image: url("./pencil.png");
+    background-image: url("./pencil2.png");
     background-size: cover;
     width: 100px;
     height: 100px;
-    cursor: none;
 }
 
 .otherCursor{
