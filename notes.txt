@@ -8,3 +8,5 @@ zoom in and out button
 
 changes last line colour?
 --- when mouse down do a dot of white
+
+mulitple canvas's with opacity 0

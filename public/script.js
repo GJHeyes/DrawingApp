@@ -5,6 +5,7 @@ const socket = io(),
   //otherCursor = document.querySelector(".otherCursor"),
   myCursor = document.querySelector("#myCursor"),
   canvas = document.getElementById('canvas'),
+
   //canvas2 = document.getElementById('canvas2'),
   penBox = document.getElementById('penBox')
   canvasHolder = document.getElementById("canvasHolder"),
@@ -31,6 +32,7 @@ document.addEventListener('mousemove', event=>{
   const {pageX,pageY} = event
   const {x, y} = getCoords(event)
   myCursor.setAttribute("style", `top: ${pageY}px; left: ${pageX}px`)
+
   if(penDown){
     ctx.lineTo(x,y)
     ctx.stroke()
@@ -38,10 +40,11 @@ document.addEventListener('mousemove', event=>{
   }
   socket.emit("pendrawing", {x: x, y: y, userId: localUser, penDown: penDown, otherWidth : window.innerWidth, otherHeight:window.innerHeight,
   pageX:pageX, pageY:pageY} )
+
 }) 
 
 document.addEventListener('mousedown', event=>{
-  const {x, y} = getCoords(event)
+  // const {x, y} = getCoords(event)
   penDown = true
   ctx.moveTo(x, y)
   ctx.beginPath()
@@ -84,6 +87,7 @@ function otherUserDrawing(userInfo){
     const canvas2 = document.getElementById('canvas2')
     const ctxOtherUser = canvas2.getContext('2d')
     userPen.setAttribute("style", `top: ${pageY+height}px; left: ${pageX+width}px`)
+
 
     if(penDown){
       //otherCursor.setAttribute("style", `top: ${pageY+height}px; left: ${pageX+width}px`)
